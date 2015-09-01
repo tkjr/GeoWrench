@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:view locale="#{localeBean.locale}">
+        <h:head>
+            <title>Secured welcome page</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/bootstrap.min.css" />
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/omatyyli.css" />
+            <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+            <h:outputScript library="js" name="vendor/jquery-1.11.2.js"></h:outputScript>
+            <h:outputScript library="js" name="vendor/bootstrap.js"></h:outputScript>
+
+        </h:head>
+        <body>
+            <ui:include src="/member/common/navigationBar.xhtml" />
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!--<h:link value="Home" outcome="/member/welcome.xhtml" />-->
+                        <p>
+                            <a type="button" class="btn btn-default btn-sm" href="#{request.contextPath}/member/welcome.xhtml">
+                                <span class="glyphicon glyphicon-home"></span> Home
+                            </a>
+                        </p>
+                        <h:form>
+                            <h3>Welcome #{loginBean.username}</h3>
+                            <br/>
+                            <h:outputText value="This is a secured welcome page!"/>
+                            <br/>
+                            <h:link value="Prime" outcome="/member/welcomePrimefaces.xhtml" />
+                            <br/>
+                            <h:link value="Bootstrap" outcome="/member/sivu2.xhtml" />
+                            <br/>
+                            <h:link value="Map" outcome="/member/map.xhtml" />
+                            <br/>
+                            <h:link value="Route" outcome="/member/gpxroute.xhtml" />
+                            <br/>
+                            <h:link value="Create new user" outcome="/member/admin/createUser.xhtml" rendered="#{loginBean.username == 'tkjr'}"/>
+                            <br/>
+                            <h:link value="Create new user" outcome="/member/admin/createUser.xhtml" rendered="#{loginBean.username == 'testuser'}"/>
+                            <br/>
+    <!--                        <h:link value="Create new user 2" outcome="/member/admin/createUser_1.xhtml" rendered="#{loginBean.username == 'tkjr'}"/>
+                            <br/>-->
+                            <h:commandLink action="#{loginBean.doLogout}" value="Logout"/>
+                        </h:form>
+                    </div>
+                </div>
+            </div>    	
+        </body>
+    </f:view>
+</html>

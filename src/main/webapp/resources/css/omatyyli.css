@@ -1,0 +1,27 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 18, 2015, Aug 18, 2015 8:40:21 AM
+    Author     : rantbter
+*/
+@media (max-width: 320px) {
+    .container {
+        background-color: green;
+    }
+}
+
+.btn-info {
+  color: #ff0;
+}
+
+.kirjaudu-ulos-top-margin {  
+  margin-top: 13px;
+}
+
+.kirjautunut-kayttaja {  
+  margin-top: 16px;
+  color: #9d9d9d;
+}

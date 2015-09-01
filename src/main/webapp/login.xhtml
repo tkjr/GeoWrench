@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "htth://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login form</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="vendor/jquery-1.11.2.js"></h:outputScript>
+        <h:outputScript library="js" name="vendor/bootstrap.js"></h:outputScript>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-brand">GeoWrench</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    
+                    <h:form id="login-form" styleClass="form-horizontal" >
+                        <div class="form-group">
+                            <h:outputLabel value="#{msg['username']}" styleClass="control-label col-sm-4"/>
+                            <div class="col-sm-8">
+                                <p:inputText value="#{loginBean.username}" id="username" styleClass="input-sm" />                        
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="#{msg['password']}" styleClass="control-label col-sm-4"/>
+                            <div class="col-sm-8">                      
+                                <p:password id="password" value="#{loginBean.password}" styleClass="input-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <h:commandButton id="button" value="#{msg['login']}" action="#{loginBean.doLogin}"/>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <h:commandButton action="#{localeBean.changeLocale('en', 'EN')}" value="English" image="resources/images/England.png" />
+                                <h:outputText value=" " />
+                                <h:commandButton action="#{localeBean.changeLocale('fi', 'FI')}" value="Finnish" image="resources/images/Finland.png" />
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <h:messages id="messages" layout="table" class="#{loginBean.status eq 'SUCCESS' ? 'alert alert-success':'alert alert-danger'}"/>
+                            </div>                                                        
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

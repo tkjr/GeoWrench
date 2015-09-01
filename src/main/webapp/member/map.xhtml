@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}">
+        <h:head>
+            <title>GPX-reitit</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/bootstrap.min.css" />
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/omatyyli.css" />
+            <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+            <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+            <h:outputScript library="js" name="vendor/jquery-1.11.2.js"></h:outputScript>
+            <h:outputScript library="js" name="vendor/bootstrap.js"></h:outputScript>            
+        </h:head>
+        <h:body>
+            <ui:include src="/member/common/navigationBar.xhtml" />
+            <!--        <h:link value="Home" outcome="/member/welcome.xhtml" />-->
+            <br/>
+            <br/>
+            <h:form>
+                <p:gmap center="#{mapBean.centerCoordinates}"
+                        type="ROADMAP"
+                        zoom="13"
+                        style="width: 800px; height: 500px"
+                        model="#{mapBean.mapModel}">
+                    <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" />
+                    <p:gmapInfoWindow>
+                        <h:panelGrid columns="2">
+                            <strong>Description</strong>
+                            <h:outputText value="#{mapBean.selectedMarker.title}"/>
+
+                            <strong>Address</strong>
+                            <h:outputText value="#{mapBean.markerTitle}"/>
+                        </h:panelGrid>
+                        <p:outputPanel>
+                            <h:outputText id="infoWindowTitle" value="#{mapBean.selectedMarker.data}" />
+                        </p:outputPanel>
+                    </p:gmapInfoWindow>
+                </p:gmap>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+
