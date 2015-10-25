@@ -50,6 +50,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <h:outputLabel value="#{msg['user_role']}" styleClass="control-label col-sm-4"/>
+                                <div class="col-sm-8">
+                                    <h:selectOneMenu value="#{adminBean.role}">
+                                        <f:selectItems value="#{adminBean.roles}" var="role" 
+                                                       itemValue="#{role}" itemLabel="#{msg['enum.userrole.' += role]}" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-offset-4 col-sm-8">
                                     <h:commandButton id="button" value="#{msg['create_user']}" action="#{adminBean.storeUserToDB}"/>
                                 </div>

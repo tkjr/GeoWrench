@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSInputFile;
+import geowrench.UserRole;
 import geowrench.logger.LoggerProvider;
 import java.io.File;
 import java.io.IOException;
@@ -87,9 +88,9 @@ public class MongoDbClient {
         }
     }
     
-    public synchronized void createUserCredentials(String username, String pwd) throws MongoException {
+    public synchronized void createUserCredentials(String username, String pwd, UserRole role) throws MongoException {
         MongoCollection<Document> collection = db.getCollection("user_credentials");
-        Document document = new Document("username", username).append("pwd", pwd);
+        Document document = new Document("username", username).append("pwd", pwd).append("role", role.getValue());
 
         Document alreadyThere = collection.find(eq("username", username)).first();
         if (alreadyThere == null) {
@@ -125,5 +126,23 @@ public class MongoDbClient {
             je.printStackTrace();
         }
         return pwd;
+    }
+    
+    public synchronized UserRole queryUserRole(String username) throws MongoException {
+        UserRole role = null;
+        try {
+            MongoCollection<Document> collection = db.getCollection("user_credentials");
+            Document credentials = collection.find(eq("username", username)).first();
+            if (credentials != null) {
+                String json = credentials.toJson();
+                JSONObject obj = new JSONObject(json);
+                int roleValue = obj.getInt("role");
+                role = UserRole.values()[roleValue];
+            }
+        } catch (JSONException je) {
+            je.printStackTrace();
+        }
+        System.out.println("UserRole from DB: " + role);
+        return role;
     }
 }

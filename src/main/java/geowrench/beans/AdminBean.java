@@ -2,6 +2,7 @@ package geowrench.beans;
 
 import com.mongodb.MongoException;
 import geowrench.OperationStatus;
+import geowrench.UserRole;
 import geowrench.db.MongoDbClient;
 import geowrench.logger.LoggerProvider;
 import geowrench.tools.FacesMessageUtil;
@@ -25,6 +26,8 @@ public class AdminBean {
     
     private String newUsername;
     private String newPassword;
+    private UserRole role;
+    private UserRole[] roles = UserRole.values();
     private OperationStatus status = OperationStatus.UNKNOWN;
     
     Logger log = LoggerProvider.getInstance().getLogger();
@@ -60,13 +63,30 @@ public class AdminBean {
     public void setStatus(OperationStatus status) {
         this.status = status;
     }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public UserRole[] getRoles() {
+        return roles;
+    }
+
+    
+    
+    
+    
     
     public void storeUserToDB() {
         try {
             System.out.println("storeUserToDB start...");
             String crypted = MD5Crypter.crypt(newPassword);
             
-            MongoDbClient.getInstance().createUserCredentials(newUsername, crypted);
+            MongoDbClient.getInstance().createUserCredentials(newUsername, crypted, role);
             setStatus(OperationStatus.SUCCESS);
             FacesMessageUtil.addFacesMessage(localeBean.getLocalizedStr("mongodb_user_create_success"), FacesMessage.SEVERITY_INFO);
         } catch (MongoException | IllegalArgumentException e) {

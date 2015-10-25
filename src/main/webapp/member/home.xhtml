@@ -40,10 +40,8 @@
                             <h:link value="Map" outcome="/member/map.xhtml" />
                             <br/>
                             <h:link value="Route" outcome="/member/gpxroute.xhtml" />
-                            <br/>
-                            <h:link value="Create new user" outcome="/member/admin/createUser.xhtml" rendered="#{loginBean.username == 'tkjr'}"/>
-                            <br/>
-                            <h:link value="Create new user" outcome="/member/admin/createUser.xhtml" rendered="#{loginBean.username == 'testuser'}"/>
+                            <br/>                
+                            <h:link value="Create new user" outcome="/member/admin/createUser.xhtml" rendered="#{adminBean.role == 'ADMIN'}"/>
                             <br/>
     <!--                        <h:link value="Create new user 2" outcome="/member/admin/createUser_1.xhtml" rendered="#{loginBean.username == 'tkjr'}"/>
                             <br/>-->

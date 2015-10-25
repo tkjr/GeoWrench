@@ -1,6 +1,7 @@
 package geowrench.beans;
 
 import geowrench.OperationStatus;
+import geowrench.UserRole;
 import geowrench.db.MongoDbClient;
 import geowrench.logger.LoggerProvider;
 import geowrench.tools.FacesMessageUtil;
@@ -34,6 +35,10 @@ public class LoginBean implements Serializable {
     
     @ManagedProperty(value = "#{localeBean}")
     private LocaleBean localeBean;
+    
+    @ManagedProperty(value = "#{adminBean}")
+    private AdminBean adminBean;
+    
     
     Logger log = LoggerProvider.getInstance().getLogger();
 
@@ -77,6 +82,14 @@ public class LoginBean implements Serializable {
         this.localeBean = localeBean;
     }
 
+    public AdminBean getAdminBean() {
+        return adminBean;
+    }
+
+    public void setAdminBean(AdminBean adminBean) {
+        this.adminBean = adminBean;
+    }
+
     public OperationStatus getStatus() {
         return status;
     }
@@ -111,11 +124,14 @@ public class LoginBean implements Serializable {
             return navigationBean.toLogin();
         }
 
+        
+        
         String pwdFromDB = MongoDbClient.getInstance().queryUserCredentials(username);
         if(StringUtils.isNotEmpty(pwdFromDB)) {
             String cryptedPwd = MD5Crypter.crypt(password);
             if (cryptedPwd.equals(pwdFromDB)) {
                 loggedIn = true;
+                queryUserRole();
                 return navigationBean.redirectToHome();
             }
         }
@@ -138,6 +154,7 @@ public class LoginBean implements Serializable {
         localeBean.setDefaultLocale();
         // Set the paremeter indicating that user is logged in to false
         loggedIn = false;
+        adminBean.setRole(null);
 
         setStatus(OperationStatus.SUCCESS);
         // Set logout message
@@ -157,6 +174,11 @@ public class LoginBean implements Serializable {
             MongoDbClient.getInstance().updateUserCredentials(username, cryptedNew);
             password = newPassword;
         }
+    }
+    
+    private void queryUserRole() {
+        UserRole roleFromDB = MongoDbClient.getInstance().queryUserRole(username);
+        adminBean.setRole(roleFromDB);
     }
 
 }
